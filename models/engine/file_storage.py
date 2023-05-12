@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 ->Module for:
         - storage of class
@@ -21,7 +22,7 @@ class FileStorage:
         return the objects dictionary
         """
         return FileStorage.__objects
-    
+
     def new(self, obj):
         """
         Args:
@@ -30,36 +31,36 @@ class FileStorage:
         """
         key = f'{obj.__class__.__name__}.{obj.id}'
         FileStorage.__objects[key] = obj
-    
+
     def save(self):
         """
         serializes __objects to the JSON file (path: __file_path)
         """
-        data = {key: obj.to_dict() for key, obj in FileStorage.__objects.items()}
+        data = {k: obj.to_dict() for k, obj in FileStorage.__objects.items()}
         with open(self.__file_path, 'w', encoding='utf-8') as file:
             json.dump(data, file)
 
     def reload(self):
         """
-         deserializes the JSON file to __objects (only if the JSON file (__file_path) exists
-         otherwise, do nothing. If the file doesn’t exist, no exception should be raised)
+         deserializes the JSON file to __objects
         """
         try:
             with open(self.__file_path, encoding="utf-8") as file:
                 data = json.load(file)
-            
+
             for key, value in data.items():
-                mod_names = ['base_model', 'user', 'state', 'city', 'amenity', 'place', 'review']
-                cls_names = ['BaseModel', 'User', 'State', 'City', 'Amenity']
-                cls_names.extend(['Place', 'Review'])
+                mod_names = ['base_model', 'user', 'state', 'city']
+                mod_names.extend(['city', 'amenity', 'place', 'review'])
+                cls_names = ['BaseModel', 'User', 'State', 'City']
+                cls_names.extend(['Amenity', 'Place', 'Review'])
                 class_name, obj_id = key.split('.')
                 name = ''
                 for j, i in enumerate(cls_names):
                     if i == class_name:
                         name = mod_names[j]
                         break
-                class_module = __import__('models.' + name, fromlist=[class_name])
-                class_ = getattr(class_module, class_name)
+                class_mod = __import__('models.' + name, fromlist=[class_name])
+                class_ = getattr(class_mod, class_name)
                 obj = class_(**value)
                 for k, v in value.items():
                     if k == "created_at" or k == "updated_at":
