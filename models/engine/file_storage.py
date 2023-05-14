@@ -50,7 +50,7 @@ class FileStorage:
 
             for key, value in data.items():
                 mod_names = ['base_model', 'user', 'state', 'city']
-                mod_names.extend(['city', 'amenity', 'place', 'review'])
+                mod_names.extend(['amenity', 'place', 'review'])
                 cls_names = ['BaseModel', 'User', 'State', 'City']
                 cls_names.extend(['Amenity', 'Place', 'Review'])
                 class_name, obj_id = key.split('.')
