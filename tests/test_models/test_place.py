@@ -13,7 +13,6 @@ class TestPlace(test_base_model.TestBaseModel):
     """
     def setUp(self):
         self.my_model = Place()
-        self.my_model.name = "My First Model"
         self.my_model.my_number = 89
 
     def test_init(self):
