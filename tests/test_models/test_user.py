@@ -28,6 +28,15 @@ class TestUser(test_base_model.TestBaseModel):
     def test_to_dict(self):
         return super().test_to_dict()
 
+    def test_cls_att(self):
+        """
+        test if string
+        """
+        self.assertIs(type(self.my_model.email), str)
+        self.assertIs(type(self.my_model.password), str)
+        self.assertIs(type(self.my_model.first_name), str)
+        self.assertIs(type(self.my_model.last_name), str)
+
     def tearDown(self):
         return super().tearDown()
 
