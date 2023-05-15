@@ -27,6 +27,14 @@ class TestReview(test_base_model.TestBaseModel):
     def test_to_dict(self):
         return super().test_to_dict()
 
+    def test_cls_att(self):
+        """
+        test if string
+        """
+        self.assertIs(type(self.my_model.place_id), str)
+        self.assertIs(type(self.my_model.user_id), str)
+        self.assertIs(type(self.my_model.text), str)
+
     def tearDown(self):
         return super().tearDown()
 
