@@ -28,6 +28,12 @@ class TestState(test_base_model.TestBaseModel):
     def test_to_dict(self):
         return super().test_to_dict()
 
+    def test_cls_att(self):
+        """
+        test if string
+        """
+        self.assertIs(type(self.my_model.name), str)
+
     def tearDown(self):
         return super().tearDown()
 
