@@ -3,6 +3,7 @@
 Test console
 """
 import unittest
+import sys
 from unittest.mock import patch
 from io import StringIO
 from console import HBNBCommand

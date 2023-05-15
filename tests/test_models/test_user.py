@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 """
-Test Amenity Class
+Test User Class
 """
-from models.amenity import Amenity
-from tests.test_classes import test_BaseModel
+from models.user import User
+from tests.test_models import test_base_model
 import unittest
 
 
-class TestAmenity(test_BaseModel.TestBaseModel):
+class TestUser(test_base_model.TestBaseModel):
     """
-    instantiate TestBaseModel
+    instantiate TestUser
     """
     def setUp(self):
-        self.my_model = Amenity()
+        self.my_model = User()
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
 
@@ -29,6 +29,6 @@ class TestAmenity(test_BaseModel.TestBaseModel):
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     loader = unittest.TestLoader()
-    suite.addTests(loader.loadTestsFromTestCase(TestAmenity))
+    suite.addTests(loader.loadTestsFromTestCase(TestUser))
     runner = unittest.TextTestRunner()
     runner.run(suite)

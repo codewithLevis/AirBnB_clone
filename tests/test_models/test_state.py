@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 """
-Test Place Class
+Test State Class
 """
-from models.place import Place
-from tests.test_classes import test_BaseModel
+from models.state import State
+from tests.test_models import test_base_model
 import unittest
 
 
-class TestPlace(test_BaseModel.TestBaseModel):
+class TestState(test_base_model.TestBaseModel):
     """
-    instantiate TestPlace
+    instantiate TestState
     """
     def setUp(self):
-        self.my_model = Place()
+        self.my_model = State()
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
 
@@ -29,6 +29,6 @@ class TestPlace(test_BaseModel.TestBaseModel):
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     loader = unittest.TestLoader()
-    suite.addTests(loader.loadTestsFromTestCase(TestPlace))
+    suite.addTests(loader.loadTestsFromTestCase(TestState))
     runner = unittest.TextTestRunner()
     runner.run(suite)

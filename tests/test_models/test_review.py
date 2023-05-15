@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 """
-Test State Class
+Test Review Class
 """
-from models.state import State
-from tests.test_classes import test_BaseModel
+from models.review import Review
+from tests.test_models import test_base_model
 import unittest
 
 
-class TestState(test_BaseModel.TestBaseModel):
+class TestReview(test_base_model.TestBaseModel):
     """
-    instantiate TestState
+    instantiate TestReview
     """
     def setUp(self):
-        self.my_model = State()
+        self.my_model = Review()
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
 
@@ -29,6 +29,6 @@ class TestState(test_BaseModel.TestBaseModel):
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     loader = unittest.TestLoader()
-    suite.addTests(loader.loadTestsFromTestCase(TestState))
+    suite.addTests(loader.loadTestsFromTestCase(TestReview))
     runner = unittest.TextTestRunner()
     runner.run(suite)

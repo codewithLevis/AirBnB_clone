@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 """
-Test User Class
+Test City Class
 """
-from models.user import User
-from tests.test_classes import test_BaseModel
+from models.city import City
+from tests.test_models import test_base_model
 import unittest
 
 
-class TestUser(test_BaseModel.TestBaseModel):
+class TestCity(test_base_model.TestBaseModel):
     """
-    instantiate TestUser
+    instantiate TestCity
     """
     def setUp(self):
-        self.my_model = User()
+        self.my_model = City()
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
 
@@ -29,6 +29,6 @@ class TestUser(test_BaseModel.TestBaseModel):
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     loader = unittest.TestLoader()
-    suite.addTests(loader.loadTestsFromTestCase(TestUser))
-    runner = unittest.TextTestRunner()
+    suite.addTests(loader.loadTestsFromTestCase(TestCity))
+    runner = unittest.TextTestRunner
     runner.run(suite)

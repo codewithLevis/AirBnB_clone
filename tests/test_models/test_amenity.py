@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 """
-Test Review Class
+Test Amenity Class
 """
-from models.review import Review
-from tests.test_classes import test_BaseModel
+from models.amenity import Amenity
+from tests.test_models import test_base_model
 import unittest
 
 
-class TestReview(test_BaseModel.TestBaseModel):
+class TestAmenity(test_base_model.TestBaseModel):
     """
-    instantiate TestReview
+    instantiate TestBaseModel
     """
     def setUp(self):
-        self.my_model = Review()
+        self.my_model = Amenity()
         self.my_model.name = "My First Model"
         self.my_model.my_number = 89
 
@@ -29,6 +29,6 @@ class TestReview(test_BaseModel.TestBaseModel):
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     loader = unittest.TestLoader()
-    suite.addTests(loader.loadTestsFromTestCase(TestReview))
+    suite.addTests(loader.loadTestsFromTestCase(TestAmenity))
     runner = unittest.TextTestRunner()
     runner.run(suite)
