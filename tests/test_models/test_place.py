@@ -22,6 +22,12 @@ class TestPlace(test_base_model.TestBaseModel):
     def test_str(self):
         return super().test_str()
 
+    def test_save(self):
+        return super().test_save()
+
+    def test_to_dict(self):
+        return super().test_to_dict()
+
     def tearDown(self):
         return super().tearDown()
 

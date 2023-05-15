@@ -6,6 +6,8 @@ import unittest
 import uuid
 import re
 from models.base_model import BaseModel
+from models import storage
+from models.engine.file_storage import FileStorage
 
 
 class TestBaseModel(unittest.TestCase):
@@ -39,10 +41,33 @@ class TestBaseModel(unittest.TestCase):
         match = match.group()
         self.assertEqual(string, match)
 
+    def test_save(self):
+        """
+        tests BaseModel.save()
+        """
+        search_key = f'{self.my_model.__class__.__name__}.{self.my_model.id}'
+        self.my_model.save()
+        self.assertIsNotNone(self.my_model.updated_at.isoformat())
+        self.assertIn(search_key, storage._FileStorage__objects)
+
+    def test_to_dict(self):
+        """
+        test resturn value from to dict
+        """
+        my_di = self.my_model.to_dict()
+        self.assertGreaterEqual(len(my_di), 4)
+        self.assertEqual(type(my_di['updated_at']), str)
+        self.assertEqual(type(my_di['updated_at']), str)
+        self.assertIn('__class__', my_di)
+        self.assertEqual(my_di['__class__'], self.my_model.__class__.__name__)
+
     def tearDown(self):
         """
         Delete the instance
         """
+        search_key = f'{self.my_model.__class__.__name__}.{self.my_model.id}'
+        del storage._FileStorage__objects[search_key]
+        self.my_model.save()
         del self.my_model
 
 
