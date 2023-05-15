@@ -8,6 +8,7 @@ import re
 from models.base_model import BaseModel
 from models import storage
 from models.engine.file_storage import FileStorage
+import os
 
 
 class TestBaseModel(unittest.TestCase):
@@ -46,9 +47,15 @@ class TestBaseModel(unittest.TestCase):
         tests BaseModel.save()
         """
         search_key = f'{self.my_model.__class__.__name__}.{self.my_model.id}'
+        file_s = os.path.getsize('file.json')
         self.my_model.save()
         self.assertIsNotNone(self.my_model.updated_at.isoformat())
         self.assertIn(search_key, storage._FileStorage__objects)
+        self.assertTrue(os.path.isfile('file.json'))
+        self.assertGreater(os.path.getsize('file.json'), file_s)
+        with open('file.json', 'r', encoding='utf-8') as file:
+            data = file.read()
+            self.assertIn('"id": "{}"'.format(self.my_model.id), data)
 
     def test_to_dict(self):
         """
