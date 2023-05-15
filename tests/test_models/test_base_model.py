@@ -25,6 +25,8 @@ class TestBaseModel(unittest.TestCase):
         test if all init instances meet the required format
         """
         self.assertEqual(self.my_model.my_number, 89)
+        self.assertEqual(len(self.my_model.id), 36)
+        self.assertTrue(type(self.my_model.id) == str)
 
     def test_str(self):
         """
