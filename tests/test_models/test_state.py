@@ -33,6 +33,7 @@ class TestState(test_base_model.TestBaseModel):
         test if string
         """
         self.assertIs(type(self.my_model.name), str)
+        self.assertIsNotNone(self.my_model.name)
 
     def tearDown(self):
         return super().tearDown()
