@@ -11,6 +11,7 @@ from models.city import City
 from models.place import Place
 from models.review import Review
 from models import storage
+from models.engine.file_storage import FileStorage
 
 
 cls_var = ['BaseModel', 'User', 'State', 'City', 'Amenity']
@@ -18,8 +19,10 @@ cls_var.extend(['Place', 'Review'])
 
 
 def parse(line, name, st=False):
+    """
+    Parses command line argument
+    """
     if st:
-        """"""
         import shlex
         line = line.replace("update(", "").replace(")", "")
         line = line.replace("{", "").replace("}", "")
@@ -133,12 +136,11 @@ class HBNBCommand(cmd.Cmd):
             `(save the change into the JSON file).`
         Ex: $ destroy BaseModel 1234-1234-1234.
         """
-        args = arg.split()
-
-        if len(args) == 0:
+        if not arg:
             print("** class name missing **")
             return
 
+        args = arg.split()
         if args[0] not in cls_var:
             print("** class doesn't exist **")
             return
@@ -149,10 +151,8 @@ class HBNBCommand(cmd.Cmd):
 
         search_key = f"{args[0]}.{args[1]}"
         if search_key in storage.all():
-            del storage.all()[search_key]
-            for value in storage.all().values():
-                value.save()
-                break
+            del storage._FileStorage__objects[search_key]
+            storage.save()
         else:
             print("** no instance found **")
 
