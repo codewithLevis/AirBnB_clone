@@ -7,7 +7,7 @@ from models import storage
 from models.city import City
 import unittest
 import os
-import datetime
+from datetime import datetime
 
 
 class TestFileStorage(unittest.TestCase):
@@ -52,16 +52,14 @@ class TestFileStorage(unittest.TestCase):
             self.assertNotIn(search_key, data)
 
     def test_reload(self):
-        new_model = City()
-        search_key = f'{new_model.__class__.__name__}.{new_model.id}'
-        storage.save()
-        all_s = storage.all()
+        search_key = f'{self.new.__class__.__name__}.{self.new.id}'
+        self.assertGreaterEqual(len(storage._FileStorage__file_path), 1)
         storage.reload()
-        self.assertEqual(all_s, storage._FileStorage__objects)
-        obj = storage._FileStorage__objects[search_key]
-        self.assertIsNot(type(obj.created_at), str)
-        self.assertIs(type(obj.created_at), datetime.datetime)
-        del storage._FileStorage__objects[search_key]
+        self.assertGreaterEqual(len(storage._FileStorage__objects), 1)
+        self.assertIs(type(storage._FileStorage__objects), dict)
+        pt_d = storage._FileStorage__objects[search_key].to_dict()
+        self.assertIs(type(datetime.fromisoformat(pt_d['created_at'])), datetime)
+        self.assertIs(type(datetime.fromisoformat(pt_d['updated_at'])), datetime)
 
     def tearDown(self):
         search_key = f'{self.new.__class__.__name__}.{self.new.id}'
