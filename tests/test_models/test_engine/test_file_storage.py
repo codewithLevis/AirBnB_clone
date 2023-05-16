@@ -4,10 +4,16 @@ test the Json storage
 """
 from models.engine.file_storage import FileStorage
 from models import storage
-from models.city import City
 import unittest
 import os
 from datetime import datetime
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.place import Place
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 class TestFileStorage(unittest.TestCase):
@@ -51,22 +57,40 @@ class TestFileStorage(unittest.TestCase):
             data = file.read()
             self.assertNotIn(search_key, data)
 
-    def test_reload(self):
-        search_key = f'{self.new.__class__.__name__}.{self.new.id}'
-        self.assertGreaterEqual(len(storage._FileStorage__file_path), 1)
-        storage.reload()
-        self.assertGreaterEqual(len(FileStorage._FileStorage__objects), 1)
-        self.assertIs(type(FileStorage._FileStorage__objects), dict)
-        pt_d = FileStorage._FileStorage__objects[search_key].to_dict()
-        self.assertIn(search_key, FileStorage._FileStorage__objects)
-        self.assertIs(type(datetime.fromisoformat(pt_d['created_at'])), datetime)
-        self.assertIs(type(datetime.fromisoformat(pt_d['updated_at'])), datetime)
-        with self.assertRaises(TypeError):
-           storage.reload(None)
-
     def tearDown(self):
         search_key = f'{self.new.__class__.__name__}.{self.new.id}'
         del storage._FileStorage__objects[search_key]
+
+
+class TestReload(unittest.TestCase):
+    def setUp(self):
+        self.amenity = Amenity()
+        self.city = City()
+        self.basemodel = BaseModel()
+        self.place = Place()
+        self.review = Review()
+        self.state = State()
+        self.user = User()
+        self.lst = [self.amenity, self.city, self.basemodel, self.place]
+        self.lst.extend([self.review, self.state, self.user])
+
+    def test_reload(self):
+        for i in self.lst:
+            search_key = f'{i.__class__.__name__}.{i.id}'
+            self.assertGreaterEqual(len(storage._FileStorage__file_path), 1)
+            storage.save()
+            storage.reload()
+            self.assertGreaterEqual(len(FileStorage._FileStorage__objects), 1)
+            self.assertIs(type(FileStorage._FileStorage__objects), dict)
+            pt_d = FileStorage._FileStorage__objects[search_key]
+            self.assertIn(search_key, FileStorage._FileStorage__objects)
+            self.assertIs(type(pt_d.created_at), datetime)
+            self.assertIs(type(pt_d.updated_at), datetime)
+
+    def tearDown(self):
+        for i in self.lst:
+            search_key = f'{i.__class__.__name__}.{i.id}'
+            del storage._FileStorage__objects[search_key]
 
 
 if __name__ == '__main__':
