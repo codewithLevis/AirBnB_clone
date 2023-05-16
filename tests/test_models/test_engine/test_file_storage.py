@@ -56,10 +56,13 @@ class TestFileStorage(unittest.TestCase):
         self.assertGreaterEqual(len(storage._FileStorage__file_path), 1)
         storage.reload()
         self.assertGreaterEqual(len(storage._FileStorage__objects), 1)
+        self.assertIn(search_key, storage._FileStorage__objects)
         self.assertIs(type(storage._FileStorage__objects), dict)
         pt_d = storage._FileStorage__objects[search_key].to_dict()
         self.assertIs(type(datetime.fromisoformat(pt_d['created_at'])), datetime)
         self.assertIs(type(datetime.fromisoformat(pt_d['updated_at'])), datetime)
+        with self.assertRaises(TypeError):
+           storage.reload(None)
 
     def tearDown(self):
         search_key = f'{self.new.__class__.__name__}.{self.new.id}'
